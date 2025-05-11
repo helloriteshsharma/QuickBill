@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+
+    <!-- Link to your Tailwind CSS output file -->
+    <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
+</head>
+
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white transition-colors duration-500">
+
+<!-- Navigation Bar -->
+<div th:replace="header :: header"></div>
+
+
+<!-- Main Content -->
+<div class="container mx-auto px-4 py-8">
+    <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold text-indigo-700 dark:text-indigo-300">Home Page</h1>
+    </div>
+
+    <!-- Centered Cards Layout (2 cards per row) -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-2 gap-8 justify-center">
+        <!-- Row 1: Add Item and View All Items -->
+        <div class="flex justify-center">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center w-full max-w-xs">
+                <a th:href="@{'/addItem'}">
+                    <button type="button" class="w-full bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 rounded-md transition">
+                        Add Item
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center w-full max-w-xs">
+                <a th:href="@{'/allItems'}">
+                    <button type="button" class="w-full bg-green-500 hover:bg-green-600 text-white px-6 py-3 rounded-md transition">
+                        View All Items
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <!-- Row 2: Add Customer and View All Customer -->
+        <div class="flex justify-center">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center w-full max-w-xs">
+                <a th:href="@{'/addCustomer'}">
+                    <button type="button" class="w-full bg-yellow-500 hover:bg-yellow-600 text-white px-6 py-3 rounded-md transition">
+                        Add Customer
+                    </button>
+                </a>
+            </div>
+        </div>
+        <div class="flex justify-center">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center w-full max-w-xs">
+                <a th:href="@{'/allCustomer'}">
+                    <button type="button" class="w-full bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-md transition">
+                        View All Customer
+                    </button>
+                </a>
+            </div>
+        </div>
+
+        <!-- Row 3: Generate Bill -->
+        <div class="flex justify-center">
+            <div class="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 text-center w-full max-w-xs">
+                <a th:href="@{'/allItemAndCustomer'}">
+                    <button type="button" class="w-full bg-purple-500 hover:bg-purple-600 text-white px-6 py-3 rounded-md transition">
+                        Generate Bill
+                    </button>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+</body>
+
+</html>

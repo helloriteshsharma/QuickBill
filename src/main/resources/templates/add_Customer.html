@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Add Customer</title>
+  <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
+</head>
+<body id="body" class="bg-gray-100 dark:bg-gray-900 transition-colors duration-500">
+
+<!-- Navigation Bar -->
+<div th:replace="header :: header"></div>
+
+
+<!-- Form Container -->
+<div class="flex justify-center items-center min-h-screen px-4">
+  <div class="w-full max-w-xl p-8 rounded-2xl shadow-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-all duration-500">
+
+    <h2 class="text-3xl font-bold text-center text-indigo-700 dark:text-indigo-300 mb-8">Add Customer</h2>
+
+    <div th:if="${successMessage}"
+         class="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-100 px-4 py-2 rounded mb-4 font-semibold">
+      <p th:text="${successMessage}"></p>
+    </div>
+
+
+    <form th:action="@{/saveCustomer}" th:object="${customer}" method="post" class="space-y-6">
+
+      <!-- Customer ID -->
+      <div>
+        <label for="customerId" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Customer ID</label>
+        <input type="text" id="customerId" placeholder="Enter the Customer Id" th:field="*{customerId}"
+               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <span th:if="${#fields.hasErrors('customerId')}" th:errors="*{customerId}"
+              class="text-red-700 text-sm font-semibold mt-1 block"></span>
+      </div>
+
+      <!-- Customer Name -->
+      <div>
+        <label for="customerName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Customer Name</label>
+        <input type="text" id="customerName" placeholder="Enter Customer Name" th:field="*{customerName}"
+               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <span th:if="${#fields.hasErrors('customerName')}" th:errors="*{customerName}"
+              class="text-red-700 text-sm font-semibold mt-1 block"></span>
+      </div>
+
+      <!-- Mobile Number -->
+      <div>
+        <label for="customerMobile" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Mobile Number</label>
+        <input type="number" id="customerMobile" placeholder="Enter the mobile no."  min="0" th:field="*{customerMobile}"
+               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <span th:if="${#fields.hasErrors('customerMobile')}" th:errors="*{customerMobile}"
+              class="text-red-700 text-sm font-semibold mt-1 block"></span>
+      </div>
+
+      <!-- Address -->
+      <div>
+        <label for="customerAddress" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Address</label>
+        <input type="text" id="customerAddress" placeholder="Enter Address" th:field="*{customerAddress}"
+               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <span th:if="${#fields.hasErrors('customerAddress')}" th:errors="*{customerAddress}"
+              class="text-red-700 text-sm font-semibold mt-1 block"></span>
+      </div>
+
+      <!-- GST Number -->
+      <div>
+        <label for="customerGstNumber" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">GST Number</label>
+        <input type="text" id="customerGstNumber" placeholder="Enter GST number" th:field="*{customerGstNumber}"
+               class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+        <span th:if="${#fields.hasErrors('customerGstNumber')}" th:errors="*{customerGstNumber}"
+              class="text-red-700 text-sm font-semibold mt-1 block"></span>
+      </div>
+
+      <!-- Submit -->
+      <div>
+        <button type="submit"
+                class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-md transition-colors duration-300">
+          Submit
+        </button>
+      </div>
+    </form>
+
+    <!-- Back Button -->
+    <div class="text-center mt-6">
+      <a th:href="@{'/home'}">
+        <button type="button"
+                class="px-6 py-2 bg-gray-300 dark:bg-gray-600 text-black dark:text-white rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 transition">
+          Back
+        </button>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+
+</body>
+</html>

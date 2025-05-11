@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modify Item</title>
+    <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
+</head>
+<body id="body" class="bg-gray-100 dark:bg-gray-900 transition-colors duration-500">
+
+
+<!-- Navigation Bar -->
+<div th:replace="header :: header"></div>
+
+
+
+<!-- Form Card -->
+<div class="flex justify-center items-center min-h-screen px-4">
+    <div class="w-full max-w-xl p-8 rounded-2xl shadow-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 transition-all duration-500">
+
+        <h1 class="text-3xl font-bold text-center text-indigo-700 dark:text-indigo-300 mb-8">Modify Item</h1>
+
+        <form th:action="@{/updateItem}" th:object="${item}" method="post" class="space-y-6">
+
+            <input type="hidden" th:field="*{id}" />
+
+            <!-- Item Code -->
+            <div>
+                <label for="itemCode" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Item Code</label>
+                <input type="text" id="itemCode" placeholder="Enter Item Code" th:field="*{itemCode}"
+                       class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <span th:if="${#fields.hasErrors('itemCode')}" th:errors="*{itemCode}" class="text-red-700 text-sm font-semibold mt-1 block"></span>
+            </div>
+
+            <!-- Item Name -->
+            <div>
+                <label for="itemName" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Item Name</label>
+                <input type="text" id="itemName" placeholder="Enter Item Name" th:field="*{itemName}"
+                       class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <span th:if="${#fields.hasErrors('itemName')}" th:errors="*{itemName}" class="text-red-700 text-sm font-semibold mt-1 block"></span>
+            </div>
+
+            <!-- Quantity -->
+            <div>
+                <label for="itemQuantity" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Quantity</label>
+                <input type="number" id="itemQuantity" placeholder="Enter Quantity" th:field="*{itemQuantity}"
+                       class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <span th:if="${#fields.hasErrors('itemQuantity')}" th:errors="*{itemQuantity}" class="text-red-700 text-sm font-semibold mt-1 block"></span>
+            </div>
+
+            <!-- Unit -->
+            <div>
+                <label for="itemUnit" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Unit</label>
+                <select th:field="*{itemUnit}"
+                        class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <option value="" disabled>Select Unit</option>
+                    <option th:each="unit : ${unitOptions}" th:value="${unit}" th:text="${unit}"></option>
+                </select>
+                <span th:if="${#fields.hasErrors('itemUnit')}" th:errors="*{itemUnit}" class="text-red-700 text-sm font-semibold mt-1 block"></span>
+            </div>
+
+            <!-- GST Number -->
+            <div>
+                <label for="itemGstNumber" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">GST Number</label>
+                <input type="text" id="itemGstNumber" placeholder="XXAAAA9999A1Z5" th:field="*{itemGstNumber}"
+                       class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <span th:if="${#fields.hasErrors('itemGstNumber')}" th:errors="*{itemGstNumber}" class="text-red-700 text-sm font-semibold mt-1 block"></span>
+            </div>
+
+            <!-- GST Percent -->
+            <div>
+                <label for="itemGstPercent" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">GST %</label>
+                <input type="number" step="0.01" min="0.01" id="itemGstPercent" placeholder="e.g. 5.00" th:field="*{itemGstPercent}"
+                       class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <span th:if="${#fields.hasErrors('itemGstPercent')}" th:errors="*{itemGstPercent}" class="text-red-700 text-sm font-semibold mt-1 block"></span>
+            </div>
+
+            <!-- Price -->
+            <div>
+                <label for="itemPrice" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Price</label>
+                <input type="number" step="0.01" min="0.01" id="itemPrice" placeholder="e.g. 100.00" th:field="*{itemPrice}"
+                       class="w-full px-4 py-2 rounded-md border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500" />
+                <span th:if="${#fields.hasErrors('itemPrice')}" th:errors="*{itemPrice}" class="text-red-700 text-sm font-semibold mt-1 block"></span>
+            </div>
+
+            <!-- Submit -->
+            <div>
+                <button type="submit"
+                        class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-2 rounded-md transition-colors duration-300">
+                    Submit
+                </button>
+            </div>
+        </form>
+
+        <!-- Back Button -->
+        <div class="text-center mt-6">
+            <a th:href="@{'/allItems'}">
+                <button type="button"
+                        class="px-6 py-2 bg-gray-300 dark:bg-gray-600 text-black dark:text-white rounded-md hover:bg-gray-400 dark:hover:bg-gray-500 transition">
+                    Back
+                </button>
+            </a>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+</body>
+</html>

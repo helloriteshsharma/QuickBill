@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Items</title>
+  <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
+
+</head>
+<body id="body" class="bg-gray-100 dark:bg-gray-900 text-gray-900  transition-colors duration-500">
+
+<!-- Navigation Bar -->
+<div th:replace="header :: header"></div>
+
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold text-center text-indigo-700 dark:text-indigo-300 mb-6">All Items</h1>
+  <div th:if="${successMessage}"
+       class="bg-green-100 text-green-800 dark:bg-green-900 px-4 py-2 rounded mb-4 font-semibold">
+    <p th:text="${successMessage}"></p>
+  </div>
+
+  <div class="overflow-x-auto shadow-md rounded-lg dark:text-white">
+    <table class="min-w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+      <thead class="bg-indigo-100 dark:bg-indigo-700 text-indigo-900 dark:text-white">
+      <tr>
+        <th class="px-4 py-2 text-left">Sl No.</th>
+        <th class="px-4 py-2 text-left">Code</th>
+        <th class="px-4 py-2 text-left">Name</th>
+        <th class="px-4 py-2 text-left">Quantity</th>
+        <th class="px-4 py-2 text-left">Unit</th>
+        <th class="px-4 py-2 text-left">GST No.</th>
+        <th class="px-4 py-2 text-left">GST %</th>
+        <th class="px-4 py-2 text-left">Price</th>
+        <th class="px-4 py-2 text-left">Action</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr th:each="item, it : ${itemList}" class="hover:bg-gray-100 dark:hover:bg-gray-700">
+        <td class="px-4 py-2" th:text="${it.index+1}">1</td>
+        <td class="px-4 py-2" th:text="${item.itemCode}">Code</td>
+        <td class="px-4 py-2" th:text="${item.itemName}">Name</td>
+        <td class="px-4 py-2" th:text="${item.itemQuantity}">Quantity</td>
+        <td class="px-4 py-2" th:text="${item.itemUnit}">Unit</td>
+        <td class="px-4 py-2" th:text="${item.itemGstNumber}">GST No.</td>
+        <td class="px-4 py-2" th:text="${item.itemGstPercent}">GST %</td>
+        <td class="px-4 py-2" th:text="${item.itemPrice}">Price</td>
+        <td class="px-4 py-2 space-x-2">
+          <a th:href="@{'/loadEditItem/'+${item.id}}" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded-md text-sm transition">
+            <i class="fa-solid fa-pen-to-square mr-1"></i>Edit
+          </a>
+          <a th:href="@{'/deleteItem/'+${item.id}}" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded-md text-sm transition">
+            <i class="fa-solid fa-trash mr-1"></i>Delete
+          </a>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Back Button -->
+  <div class="mt-6 text-center dark:text-white">
+    <a th:href="@{'/home'}">
+      <button class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white px-6 py-2 rounded-md shadow transition">Back</button>
+    </a>
+  </div>
+</div>
+
+
+
+</body>
+</html>

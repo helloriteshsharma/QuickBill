@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>All Items and Customers</title>
+
+    <link rel="stylesheet" data-th-href="@{'/css/output.css'}">
+    <script>
+        function toggleItem(checkbox) {
+          const itemId = checkbox.dataset.id;
+          const url = checkbox.checked
+              ? `/bill/addItem/${itemId}`
+              : `/bill/removeItem/${itemId}`;
+
+          fetch(url, { method: 'GET' })
+              .then(res => res.text())
+              .then(data => {
+                  document.getElementById('message').innerText = data;
+              })
+              .catch(err => console.error("API call failed:", err));
+        }
+
+        function toggleCustomer(checkbox) {
+          // Uncheck all checkboxes except the one clicked
+          document.querySelectorAll('input[name="customerCheckbox"]').forEach(cb => {
+              if (cb !== checkbox) cb.checked = false;
+          });
+
+          const customerId = checkbox.dataset.id;
+          const isChecked = checkbox.checked;
+
+          const url = isChecked
+              ? `/bill/addCustomer/${customerId}`
+              : `/bill/removeCustomer`;
+
+          fetch(url, { method: 'GET' })
+              .then(res => res.text())
+              .then(data => {
+                  document.getElementById('message').innerText = data;
+              })
+              .catch(err => console.error("API call failed:", err));
+        }
+    </script>
+</head>
+<body id="body" class="bg-gray-100 dark:bg-gray-900 text-gray-900  transition-colors duration-500">
+
+<!-- Navigation Bar -->
+<div th:replace="header :: header"></div>
+
+
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-center text-indigo-700 dark:text-indigo-300 mb-6">All Customers and Items</h1>
+
+    <div th:if="${successMessage1}"
+         class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4 font-semibold dark:bg-green-800  dark:border dark:border-green-300">
+        <p th:text="${successMessage1}"></p>
+    </div>
+
+
+
+
+    <!-- All Customers Section -->
+    <div class="mb-8">
+        <h2 class="text-2xl font-semibold text-indigo-700 dark:text-indigo-300 mb-4">All Customers</h2>
+        <div class="overflow-x-auto shadow-md rounded-lg">
+            <div th:if="${successMessage2}"  class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4 font-semibold dark:bg-green-800  dark:border dark:border-green-300">
+                <p th:text="${successMessage2}"></p>
+            </div>
+            <table class="min-w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg dark:text-white">
+                <thead class="bg-indigo-100 dark:bg-indigo-700 text-indigo-900 dark:text-white">
+                <tr>
+                    <th class="px-4 py-2 text-left">Sl No.</th>
+                    <th class="px-4 py-2 text-left">Select</th>
+                    <th class="px-4 py-2 text-left">Id</th>
+                    <th class="px-4 py-2 text-left">Name</th>
+                    <th class="px-4 py-2 text-left">Mobile No.</th>
+                    <th class="px-4 py-2 text-left">Address</th>
+                    <th class="px-4 py-2 text-left">GST No.</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="customer, it : ${customerList}" class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <td class="px-4 py-2" th:text="${it.index+1}">1</td>
+                    <td class="px-4 py-2">
+                        <label>
+                            <input type="checkbox"
+                                   th:id="'customer-' + ${customer.id}"
+                                   th:data-id="${customer.id}"
+                                   name="customerCheckbox"
+                                   onchange="toggleCustomer(this)">
+                        </label>
+                    </td>
+                    <td class="px-4 py-2" th:text="${customer.customerId}">Id</td>
+                    <td class="px-4 py-2" th:text="${customer.customerName}">Name</td>
+                    <td class="px-4 py-2" th:text="${customer.customerMobile}">Mobile No.</td>
+                    <td class="px-4 py-2" th:text="${customer.customerAddress}">Address</td>
+                    <td class="px-4 py-2" th:text="${customer.customerGstNumber}">GST No.</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- All Items Section -->
+    <div>
+        <h2 class="text-2xl font-semibold text-indigo-700 dark:text-indigo-300 mb-4">All Items</h2>
+        <div th:if="${successMessage3}"  class="bg-green-100 text-green-800 px-4 py-2 rounded mb-4 font-semibold dark:bg-green-800  dark:border dark:border-green-300">
+            <p th:text="${successMessage3}"></p>
+        </div>
+        <div class="overflow-x-auto shadow-md rounded-lg dark:text-white">
+            <table class="min-w-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg">
+                <thead class="bg-indigo-100 dark:bg-indigo-700 text-indigo-900 dark:text-white">
+                <tr>
+                    <th class="px-4 py-2 text-left">Sl No.</th>
+                    <th class="px-4 py-2 text-left">Action</th>
+                    <th class="px-4 py-2 text-left">Code</th>
+                    <th class="px-4 py-2 text-left">Name</th>
+                    <th class="px-4 py-2 text-left">Quantity</th>
+                    <th class="px-4 py-2 text-left">Unit</th>
+                    <th class="px-4 py-2 text-left">GST No.</th>
+                    <th class="px-4 py-2 text-left">GST %</th>
+                    <th class="px-4 py-2 text-left">Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="item, it : ${itemList}" class="hover:bg-gray-100 dark:hover:bg-gray-700">
+                    <td class="px-4 py-2" th:text="${it.index+1}">1</td>
+                    <td class="px-4 py-2">
+                        <label>
+                            <input type="checkbox"
+                                   th:id="'item-' + ${item.id}"
+                                   th:data-id="${item.id}"
+                                   th:onchange="toggleItem(this)">
+                        </label>
+                    </td>
+                    <td class="px-4 py-2" th:text="${item.itemCode}">Code</td>
+                    <td class="px-4 py-2" th:text="${item.itemName}">Name</td>
+                    <td class="px-4 py-2" th:text="${item.itemQuantity}">Quantity</td>
+                    <td class="px-4 py-2" th:text="${item.itemUnit}">Unit</td>
+                    <td class="px-4 py-2" th:text="${item.itemGstNumber}">GST No.</td>
+                    <td class="px-4 py-2" th:text="${item.itemGstPercent}">GST %</td>
+                    <td class="px-4 py-2" th:text="${item.itemPrice}">Price</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Actions Section -->
+    <div class="mt-6">
+        <div class="flex justify-center gap-6 mt-6">
+            <!-- Back Button -->
+            <a th:href="@{'/home'}">
+                <button class="bg-gray-300 hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 text-black dark:text-white px-6 py-2 rounded-md shadow transition">
+                    Back
+                </button>
+            </a>
+
+            <!-- Refresh Button -->
+            <a th:href="@{'bill/clearAllItems'}">
+                <button class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2 rounded-md shadow transition">
+                    Refresh
+                </button>
+            </a>
+
+            <!-- Next Button -->
+            <a th:href="@{'/bill/ItemsAndCustomer'}">
+                <button class="bg-green-500 hover:bg-green-600 text-white px-6 py-2 rounded-md shadow transition">
+                    Next
+                </button>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+
+
+</body>
+</html>
